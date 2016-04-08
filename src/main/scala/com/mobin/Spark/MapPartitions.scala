@@ -6,7 +6,7 @@ import org.apache.spark.{SparkContext, SparkConf}
   * Created by hadoop on 4/7/16.
   */
 object MapPartitions {
-
+ // 输出有女性的名字：
   def partitionsFun(iter : Iterator[(String,String)]) : Iterator[String] = {
     var woman = List[String]()
     while (iter.hasNext){
