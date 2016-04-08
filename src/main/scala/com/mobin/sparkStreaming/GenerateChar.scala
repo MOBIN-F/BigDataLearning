@@ -1,4 +1,4 @@
-package com.mobin.sparkStreaming.com.mobin.sparkStreaming
+package com.mobin.sparkStreaming
 
 import java.io.PrintWriter
 import java.net.ServerSocket
