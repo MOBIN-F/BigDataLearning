@@ -4,6 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/7/16.
+  * 与map类似，但每个元素输入项都可以被映射到0个或多个的输出项，最终将结果”扁平化“后输出
   */
 object FlatMap {
 

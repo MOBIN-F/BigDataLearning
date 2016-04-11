@@ -4,6 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/9/16.
+  * 根据weight权重值将一个RDD划分成多个RDD,权重越高划分得到的元素较多的几率就越大
   */
 object RandomSplit {
 

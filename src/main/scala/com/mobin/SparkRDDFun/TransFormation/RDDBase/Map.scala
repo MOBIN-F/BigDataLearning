@@ -4,6 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/7/16.
+  * 数据集中的每个元素经过用户自定义的函数转换形成一个新的RDD，新的RDD叫MappedRDD
   */
 object Map {
 

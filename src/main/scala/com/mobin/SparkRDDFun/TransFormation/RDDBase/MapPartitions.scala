@@ -4,7 +4,10 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/7/16.
+  * mapPartitions:类似与map，map作用于每个分区的每个元素，但mapPartitions作用于每个分区
+  *
   * mapPartitionsWithIndex:将[mapPartitionsWithIndex]注释部分去掉即是
+  * 与mapPartitions类似，不同的时函数多了个分区索引的参数
   */
 object MapPartitions {
  // 输出有女性的名字：

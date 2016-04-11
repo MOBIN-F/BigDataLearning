@@ -4,6 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/8/16.
+  * 对RDD中的元素进行去重
   */
 object Distinct {
 

@@ -4,6 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/8/16.
+  * 对两个RDD中的所有元素进行笛卡尔积操作
   */
 object Cartesian {
 

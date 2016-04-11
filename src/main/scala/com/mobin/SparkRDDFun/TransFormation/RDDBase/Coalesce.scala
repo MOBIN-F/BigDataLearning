@@ -4,6 +4,8 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/9/16.
+  * 对RDD的分区进行重新分区，shuffle默认值为false,当shuffle=false时，不能增加分区数
+    目,但不会报错，只是分区个数还是原来的
   */
 object Coalesce {
 
