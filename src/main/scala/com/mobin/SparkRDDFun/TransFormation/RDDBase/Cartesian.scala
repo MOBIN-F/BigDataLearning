@@ -1,6 +1,6 @@
-package com.mobin.Spark
+package com.mobin.SparkRDDFun.TransFormation.RDDBase
 
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by hadoop on 4/8/16.
