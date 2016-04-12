@@ -4,7 +4,7 @@ import org.apache.spark.{HashPartitioner, SparkContext, SparkConf}
 
 /**
   * Created by hadoop on 4/11/16.
-  *统计男性和女生的个数，并以（性别，（名字，名字....），个数）的形式输出
+  * 统计男性和女生的个数，并以（性别，（名字，名字....），个数）的形式输出
   */
 object CombineByKey {
 
@@ -19,11 +19,17 @@ object CombineByKey {
     val rdd = sc.parallelize(people)
     val combinByKeyRDD = rdd.combineByKey(
       (x: String) => (List(x), 1),
-      (peo: (List[String], Int), x : String) => (x :: peo._1, peo._2 + 1),
+      (peo: (List[String], Int), x: String) => (x :: peo._1, peo._2 + 1),
       (sex1: (List[String], Int), sex2: (List[String], Int)) => (sex1._1 ::: sex2._1, sex1._2 + sex2._2))
 
     combinByKeyRDD.foreach(println)
     println(combinByKeyRDD.toDebugString)
+
+    /**
+      * (1) ShuffledRDD[1] at combineByKey at CombineByKey.scala:20 []
+      * +-(1) ParallelCollectionRDD[0] at parallelize at CombineByKey.scala:19 []
+      */
+    /
     sc.stop()
   }
 }
