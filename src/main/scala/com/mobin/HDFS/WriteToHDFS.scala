@@ -22,7 +22,8 @@ object WriteToHDFS {
       val line = lines.split("\t")
       if(line.length == 6){
         val one = line(0) +"-"+ new Random().nextInt()
-        (one, line(1),line(2),line(3),line(4),line(5))
+        val lines = Array(one, line(1),line(2),line(3),line(4),line(5))
+        lines.mkString(",")
       }
     })
     rdd.saveAsTextFile(args(1))
