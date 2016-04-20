@@ -1,4 +1,4 @@
-package com.mobin.SparkRDDFun.TransFormation.RDDBase
+package com.mobin.SparkRDDFun.TransFormation.BaseRDD
 
 import org.apache.spark.{SparkConf, SparkContext}
 
