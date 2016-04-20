@@ -12,17 +12,19 @@ object Fold {
     val conf = new SparkConf().setMaster("local").setAppName("Fold")
     val sc = new SparkContext(conf)
     val rdd = sc.parallelize(Array(("a", 1), ("b", 2), ("a", 2), ("c", 5), ("a", 3)), 2)
-    val foldRDD = rdd.fold(("d", 0))((val1, val2) => { if (val1._2 >= val2._2) val1 else val2
+    val foldRDD = rdd.fold(("d", 0))((val1, val2) => {
+      if (val1._2 >= val2._2) val1 else val2
     })
     println(foldRDD)
+    sc.stop
   }
 
   /**
-  1.开始时将(“d”,0)作为op函数的第一个参数传入，将Array中和第一个元素("a",1)作为op函数的第二个参数传入，并比较value的值，
-    返回value值较大的元素
+    * 1.开始时将(“d”,0)作为op函数的第一个参数传入，将Array中和第一个元素("a",1)作为op函数的第二个参数传入，并比较value的值，
+    * 返回value值较大的元素
 
-  2.将上一步返回的元素又作为op函数的第一个参数传入，Array的下一个元素作为op函数的第二个参数传入，比较大小
+    * 2.将上一步返回的元素又作为op函数的第一个参数传入，Array的下一个元素作为op函数的第二个参数传入，比较大小
 
-  3.重复第2步骤
+    * 3.重复第2步骤
     */
 }
