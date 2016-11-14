@@ -7,6 +7,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class MapJoinJava {
                 return new Tuple2<String, String>(s.substring(0,pos), s.substring(pos + 1));
             }
         }).collectAsMap();
+
+       // final Broadcast<Map<String,String>> broadcast = sc.broadcast(pairs);
 
         table1.mapToPair(new PairFunction<String, String, String>() {
             public Tuple2<String, String> call(String s) throws Exception {
