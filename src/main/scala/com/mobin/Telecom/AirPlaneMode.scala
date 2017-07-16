@@ -1,5 +1,7 @@
 package com.mobin.Telecom
 
+import java.text.SimpleDateFormat
+
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs._
 import org.apache.spark.{SparkContext, SparkConf}
@@ -21,6 +23,65 @@ object AirPlaneMode {
     print(source)
     val paresRdd = sc.textFile(source).mapPartitions(iterFunc)
     val splicRdd = paresRdd.reduceByKey(reduceByKeyFun)
+    val statisticRdd = splicRdd.mapPartitions(statisticFun)
+    statisticRdd.count()
+  }
+
+  def statisticFun(iter: Iterator[(String, (String,Int))]) = {
+    var list = List[(String, String)]()
+    while(iter.hasNext) {
+      var sum = 0
+      val data = iter.next()
+      val str = data._2._1.split("\\|")
+      for (m <- str) {
+        val str1 = m.split(",")   //分隔出<时间，编号>
+        if (str1.length == 2 && "0".equals(str1(1))) {
+          for (n <- str) {
+            val str2 = n.split(",")  //分隔出<时间， 编号>
+            if (str2.length == 2 && ("1".equals(str2(1)) || "2".equals(str2(1)))) {
+              val t1 =paresTime(str2(0))
+              val t2 = paresTime(str1(0))
+              if (!t1.isEmpty && !t2.isEmpty && t1.get - t2.get < 2000 && t1.get - t2.get > 0){
+                sum = sum +1
+              }
+            }
+          }
+        }
+      }
+      println(data._1, sum + "," + data._2._2)
+      list = (data._1, sum + "," + data._2._2) :: list
+    }
+    list.iterator
+  }
+
+  def paresTime(time: String) : Option[Long] = {
+    val timeFormat = "yyyy-MM-dd HH:mm:ss SSS"
+    val month = time.substring(5, 8)
+    var t = time
+    if (!month.contains("-")){
+      month match {
+        case "Jan" => t = t.replace(month, "01")
+        case "Feb" => t = t.replace(month, "02")
+        case "Mar" => t = t.replace(month, "03")
+        case "Apr" => t = t.replace(month, "04")
+        case "May" => t = t.replace(month, "05")
+        case "Jun" => t = t.replace(month, "06")
+        case "Jul" => t = t.replace(month, "07")
+        case "Aug" => t = t.replace(month, "08")
+        case "Sep" => t = t.replace(month, "09")
+        case "Oct" => t = t.replace(month, "10")
+        case "Nov" => t = t.replace(month, "11")
+        case "Dec" => t = t.replace(month, "12")
+        case _ => None
+      }
+    }
+    var startTime: Option[Long] = None
+    try {
+        startTime = Some(new SimpleDateFormat(timeFormat).parse(time).getTime)
+        return startTime
+    }catch {
+      case  e: Exception => None
+    }
   }
 
   def reduceByKeyFun(x1: (String, Int), x2: (String, Int)): (String,Int) = {
@@ -44,7 +105,7 @@ object AirPlaneMode {
   def iterFunc(iter: Iterator[String]) = {
     var list = List[(String, (String, Int))]()
     while (iter.hasNext ) {
-      val str= iter.next().toString.split(",")
+      val str = iter.next().split(",")
       val enb:String = str(ENB)
       val mdn = str(MSISDN)
       val time = str(STARTTIME)
@@ -60,8 +121,6 @@ object AirPlaneMode {
     }
     list.iterator
   }
-
-
 
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("airPlainMode").setMaster("local")
