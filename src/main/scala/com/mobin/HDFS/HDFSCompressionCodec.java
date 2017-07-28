@@ -25,9 +25,11 @@ public class HDFSCompressionCodec {
         //获取文件输入流
         File dir = new File(path);
         System.out.println(dir.isDirectory());
+        conf.set("mapred.output.compress", "true");
+        conf.set("mapred.output.compression.codec", "com.hadoop.compression.lzo.LzopCodec");
         fs = FileSystem.get(conf);
-        FSDataOutputStream out = fs.create(new Path("E:\\DATA\\PUBLIC\\NOCE\\school.gz"));
-        Class<?> codecClass = Class.forName("org.apache.hadoop.io.compress.GzipCodec");
+        FSDataOutputStream out = fs.create(new Path("E:\\DATA\\PUBLIC\\NOCE\\school5.lzo"));
+        Class<?> codecClass = Class.forName("com.hadoop.compression.lzo.LzopCodec");
         CompressionCodec codec = (CompressionCodec) ReflectionUtils.newInstance(codecClass, conf);
         //将压缩数据写入到school.gz中
         //创建CompressionInputStream来对文件进行压缩
@@ -61,8 +63,8 @@ public class HDFSCompressionCodec {
             //创建CompressionInputStream来对文件进行解压
             CompressionInputStream comInputStream = codec.createInputStream(inputStream);
             //将解压后的文件写到school.txt
-            FSDataOutputStream out = fs.create(new Path("E:\\DATA\\PUBLIC\\NOCE\\school.txt"));
-            IOUtils.copyBytes(comInputStream,out,4096,true);
+            FSDataOutputStream out = fs.create(new Path("E:\\DATA\\PUBLIC\\NOCE\\school5.txt"));
+            IOUtils.copyBytes(comInputStream,out,4096,false);
             comInputStream.close();
             out.close();
         } catch (IOException e) {

@@ -2,6 +2,8 @@ package com.mobin.SparkRDDFun.TransFormation.Action
 
 import org.apache.spark.{SparkContext, SparkConf}
 
+import scala.concurrent.Future
+
 /**
   * Created by hadoop on 4/19/16.
   */

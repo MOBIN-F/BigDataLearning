@@ -47,7 +47,7 @@ public class MapJoinJava {
                     Tuple2<String,String> map = tuple2Iterator.next();
                     if (pairs.containsKey(map._1)){
                         if(list == null)
-                            list = new ArrayList<Tuple2<String, List<String>>>();
+                            list = new ArrayList();
 
                             l.add(pairs.get(map._1));
                             l.add(map._2);
