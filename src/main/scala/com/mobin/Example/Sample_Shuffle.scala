@@ -31,17 +31,13 @@ object Sample_Shuffle {
       val kv = x.split(",")
       (kv(0), kv(1))
     })
-    //对rdd1进行采样
-    val sampleRdd = rdd1.sample(false, 0.1)
-    //统计出各key的频数
-    val countSampleRdd = sampleRdd.map(x =>(x._1, 1)).reduceByKey(_ + _)
+
+    val sampleRdd = rdd1.sample(false, 0.1)                                                           //对rdd1进行采样
+    val countSampleRdd = sampleRdd.map(x =>(x._1, 1)).reduceByKey(_ + _)   //统计出各key的频数
     val reversedSampleRdd = countSampleRdd.map(x => (x._2, x._1))
-    //对频数进行排序,得到频数最高的对应的key
-    val skewedUserid = reversedSampleRdd.sortByKey(false).take(1)(0)._2
-    //从RDD1中拆分出导致数据倾斜的key，形成独立的RDD
-    val skewRdd = rdd1.filter(_._1.equals(skewedUserid))
-    ////从RDD1中拆分出不会导致数据倾斜的key，形成独立的RDD
-    val commonRdd = rdd1.filter(!_._1.equals(skewedUserid))
+    val skewedUserid = reversedSampleRdd.sortByKey(false).take(1)(0)._2        //对频数进行排序,得到频数最高的对应的key
+    val skewRdd = rdd1.filter(_._1.equals(skewedUserid))                                    //从RDD1中拆分出导致数据倾斜的key，形成独立的RDD
+    val commonRdd = rdd1.filter(!_._1.equals(skewedUserid))                            //从RDD1中拆分出不会导致数据倾斜的key，形成独立的RDD
 
     val rdd2 = sc.textFile("SampleJoin2.txt").map(x => {
       val kv = x.split(",")
