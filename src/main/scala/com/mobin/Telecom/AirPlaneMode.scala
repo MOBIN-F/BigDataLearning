@@ -86,6 +86,7 @@ object AirPlaneMode {
 
   def reduceByKeyFun(x1: (String, Int), x2: (String, Int)): (String,Int) = {
     val sum = x1._2 + x2._2
+    println(x1._1 + "ppp")
     if (",".equals(x1._1)){
       if (!",".equals(x2._1)){
           (x2._1, sum)
@@ -102,7 +103,7 @@ object AirPlaneMode {
   }
 
 
-  def iterFunc(iter: Iterator[String]) = {
+  def  iterFunc(iter: Iterator[String]) = {
     var list = List[(String, (String, Int))]()
     while (iter.hasNext ) {
       val str = iter.next().split(",")

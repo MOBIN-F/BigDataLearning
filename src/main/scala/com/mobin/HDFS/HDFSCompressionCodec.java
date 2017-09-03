@@ -77,5 +77,9 @@ public class HDFSCompressionCodec {
         HDFSCompressionCodec codec = new HDFSCompressionCodec();
         codec.coder(path);
        codec.decoder();
+        Integer i = 0;
+        Integer o = 2;
+        i.equals(o);
+        Integer ii =i + o;
     }
 }
