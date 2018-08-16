@@ -1,3 +1,5 @@
 .idea
 receivedBlockMetadata
 target
+.checkpoint*
+spark-warehouse

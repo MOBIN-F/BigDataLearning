@@ -25,8 +25,14 @@ object ScalaTransformLogEvents {
     val flumeStream = FlumeUtils.createPollingStream(streamCtx, address, StorageLevel.MEMORY_AND_DISK_SER_2, 1000, 1)
     val transformLog = new ScalaLogAnalyzerMap()
     val newDStream = flumeStream.flatMap{
+
       x => transformLog.tansformLogData(new String(x.event.getBody.array()))
     }
+
+    println("------")
+    flumeStream.map(x => x.event.getHeaders).print()
+    println("------")
+
 
     executeTransformations(newDStream, streamCtx)
     streamCtx.start()

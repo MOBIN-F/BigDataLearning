@@ -3,8 +3,6 @@ package com.mobin.Kafka.Producers;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.spark.sql.catalyst.expressions.Rand;
-import org.apache.spark.sql.execution.columnar.NULL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,7 @@ import java.util.Random;
 public class QuotationProducer {
     private static final Logger log = LoggerFactory.getLogger(QuotationProducer.class);
     private static final int MSG_SIZE = 100;
-    private static final String TOPIC = "stock-quotation2";
+    private static final String TOPIC = "stock-quotation";
     private static final String BROKER_LIST = "localhost:9092";
     private static KafkaProducer<String ,String> producer = null;
     static {
