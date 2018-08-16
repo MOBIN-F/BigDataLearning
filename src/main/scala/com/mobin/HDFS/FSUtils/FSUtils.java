@@ -1,4 +1,4 @@
-package com.mobin.FSUtils;
+package com.mobin.HDFS.FSUtils;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
