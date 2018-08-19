@@ -51,6 +51,5 @@ public class KafkaConsumerThread extends Thread {
         for (int i = 0; i < 6; i ++){
             new KafkaConsumerThread(properties, "stock-quotation").start();
         }
-
     }
 }

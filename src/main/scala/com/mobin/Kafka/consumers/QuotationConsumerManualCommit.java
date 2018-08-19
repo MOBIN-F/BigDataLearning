@@ -42,7 +42,7 @@ public class QuotationConsumerManualCommit {
     }
 
     public static void poll(){
-        consumer.subscribe(Arrays.asList(TOPIC), new ConsumerRebalanceListener() {
+        consumer.subscribe(Arrays.asList(TOPIC,"stock-quotation1"), new ConsumerRebalanceListener() {
             @Override
             public void onPartitionsRevoked(Collection<TopicPartition> collection) {
             }
@@ -51,8 +51,9 @@ public class QuotationConsumerManualCommit {
             public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
                long committedOffset = -1;
                for (TopicPartition topicPartition: partitions){
-                   committedOffset = consumer.committed(topicPartition).offset();
-                   System.out.println("当前"+topicPartition+"偏移量："+committedOffset);
+//                   System.out.println(consumer.committed(topicPartition));
+//                   committedOffset = consumer.committed(topicPartition).offset();
+//                   System.out.println("当前"+topicPartition+"偏移量："+committedOffset);
                    consumer.seekToBeginning(partitions);
                }
             }
@@ -63,8 +64,8 @@ public class QuotationConsumerManualCommit {
           while (true){
              ConsumerRecords<String, String> records = consumer.poll(1000);
              for (ConsumerRecord<String, String> record: records){
-                 System.out.printf("partition = %d, offset = %d, key = %s value = %s%n",
-                         record.partition(), record.offset(), record.key(), record.value());
+                 System.out.printf("topic = %s, partition = %d, offset = %d, key = %s value = %s%n",
+                         record.topic(),record.partition(), record.offset(), record.key(), record.value());
                  count ++;
              }
              if (count >= minCommitSize) {
